@@ -19,23 +19,27 @@ def matching(file_truth, file_validation):
         reader = csv.DictReader(csvfile)
         outputs = [row for row in reader]
     for row2 in outputs:
-        startor_list, receptor_list = list(), list()
-        flag_s, flag_r = 0, 0
+        startor_list, receptor_list, category_id_list = list(), list(), list()
+        flag_s, flag_r, flag_c = False, False, False
         fig = row2["file_name"]
         for row1 in truth:
             if row1["fig_name"] == fig:
                 startor_list.append(row1["activator"])  # in same fig
                 receptor_list.append(row1["receptor"])
+                category_id_list.append(row1["activator_id"])
         for name in startor_list:
             if matching_name(name, row2["startor"]):
                 match_name_s = name
-                flag_s = 1  # Successful match s
+                flag_s = True  # Successful match s
                 break
         for name in receptor_list:
             if matching_name(name, row2["receptor"]):
                 match_name_r = name
-                flag_r = 1
+                flag_r = True
                 break
+        for category_id in category_id_list:
+            if row2["category_id"] == category_id:
+                flag_c = True
         if flag_s:
             row2.update({"match_name_startor": match_name_s})
         else:
@@ -44,7 +48,7 @@ def matching(file_truth, file_validation):
             row2.update({"match_name_receptor": match_name_r})
         else:
             row2.update({"evaluation": "FP", "match_name_receptor": "None"})
-        if flag_r and flag_s:
+        if flag_r and flag_s and flag_c:
             row2.update({"evaluation": "TP"})
     write_relations(outputs)
 
