@@ -47,8 +47,10 @@ def matching(file_truth, file_2, wfile, wlist):
 
 
 f1 = "csv/finalized_relations.csv"
-f2 = "csv/validation model outputs relation.csv"
-wfile = "plus/validation model outputs relations plus.csv"
+f2 = "csv/raw_relation.csv"
+wfile = "plus/raw_relation plus.csv"
 wlist = ["category_id", "bbox", "startor", "receptor", "file_name", "evaluation", "match_name_startor",
          "match_name_receptor"
          ]
+
+matching(f1, f2, wfile, wlist)
