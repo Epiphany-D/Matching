@@ -64,12 +64,12 @@ def matching(file_truth, file_validation, fig_name1, fig_name2, gene_name1, gene
             row2.update({"evaluation": "FP", "match_name": "None"})
     write_plus(outputs, wfile, wlist)
 
-    f1 = "csv/finalized_genes.csv"
-    # f2 = "csv/validation model outputs elements.csv"
-    # figname1 = "fig_name"
-    # figname2 = "fige_name"
-    # genename1 = "annotated_gene_name"
-    # genename2 = "gene_name"
-    # wfile = "plus/validation model outputs elements plus.csv"
-    # wlist = ["", "coordinates", "gene_name", "fige_name", "evaluation","match_name"]
 
+f1 = "csv/finalized_genes.csv"
+f2 = "csv/raw_elements.csv"
+figname1 = "fig_name"
+figname2 = "fig_name"
+genename1 = "annotated_gene_name"
+genename2 = "gene_name"
+wfile = "plus/raw_elements plus.csv"
+wlist = ["coordinates", "gene_name", "fig_name", "evaluation", "match_name"]
