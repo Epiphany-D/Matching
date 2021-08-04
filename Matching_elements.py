@@ -30,7 +30,7 @@ def matching_name(truth_name, name):
         return False
 
 
-def write_elements(outputs, wfile, wlist):
+def write_plus(outputs, wfile, wlist):
     with open(wfile, 'w', newline='', encoding="utf-8") as newfile:
         filewriter = csv.DictWriter(newfile, fieldnames=wlist)
         filewriter.writeheader()  # 写入列名
@@ -62,7 +62,7 @@ def matching(file_truth, file_validation, fig_name1, fig_name2, gene_name1, gene
             row2.update({"evaluation": "TP", "match_name": match_name})
         else:
             row2.update({"evaluation": "FP", "match_name": "None"})
-    write_elements(outputs, wfile, wlist)
+    write_plus(outputs, wfile, wlist)
 
     f1 = "csv/finalized_genes.csv"
     # f2 = "csv/validation model outputs elements.csv"
