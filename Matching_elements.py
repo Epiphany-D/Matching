@@ -73,3 +73,5 @@ genename1 = "annotated_gene_name"
 genename2 = "gene_name"
 wfile = "plus/raw_elements plus.csv"
 wlist = ["coordinates", "gene_name", "fig_name", "evaluation", "match_name"]
+
+matching(f1, f2, figname1, figname2, genename1, genename2, wfile, wlist)
