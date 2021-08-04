@@ -3,7 +3,7 @@ from Matching_elements import matching_name
 
 
 def write_relations(outputs):
-    with open('validation model outputs relation plus.csv', 'w', newline='', encoding="utf-8") as newfile:
+    with open('plus/validation model outputs relation plus.csv', 'w', newline='', encoding="utf-8") as newfile:
         filewriter = csv.DictWriter(newfile, fieldnames=["", "category_id", "bbox", "startor", "receptor", "file_name",
                                                          "evaluation", "match_name_startor", "match_name_receptor"])
         filewriter.writeheader()  # 写入列名
@@ -49,7 +49,5 @@ def matching(file_truth, file_validation):
     write_relations(outputs)
 
 
-f1 = "finalized_relations.csv"
-f2 = "validation model outputs relation.csv"
-
-matching(f1, f2)
+f1 = "csv/finalized_relations.csv"
+f2 = "csv/validation model outputs relation.csv"

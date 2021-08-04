@@ -31,7 +31,7 @@ def matching_name(truth_name, name):
 
 
 def write_elements(outputs):
-    with open('validation model outputs elements plus.csv', 'w', newline='', encoding="utf-8") as newfile:
+    with open('plus/validation model outputs elements plus.csv', 'w', newline='', encoding="utf-8") as newfile:
         filewriter = csv.DictWriter(newfile, fieldnames=["", "coordinates", "gene_name", "fige_name", "evaluation",
                                                          "match_name"])
         filewriter.writeheader()  # 写入列名
@@ -69,10 +69,10 @@ def matching(file_truth, file_validation, fig_name1, fig_name2, gene_name1, gene
 def compare():
     list1 = list()
     list2 = list()
-    f = open("finalized_genes.csv", 'r', encoding="UTF-8")
+    f = open("csv/finalized_genes.csv", 'r', encoding="UTF-8")
     csvreader = csv.reader(f)
     final_list = list(csvreader)
-    f = open("validation model outputs elements plus.csv", "r", encoding="UTF-8")
+    f = open("plus/validation model outputs elements plus.csv", "r", encoding="UTF-8")
     csvreader = csv.reader(f)
     plus_list = list(csvreader)
     for i in final_list:
@@ -86,8 +86,8 @@ def compare():
 
 
 if __name__ == "__main__":
-    f1 = "finalized_genes.csv"
-    f2 = "validation model outputs elements.csv"
+    f1 = "csv/finalized_genes.csv"
+    f2 = "csv/validation model outputs elements.csv"
     figname1 = "fig_name"
     figname2 = "fige_name"
     genename1 = "annotated_gene_name"
