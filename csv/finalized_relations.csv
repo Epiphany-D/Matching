@@ -1,4 +1,4 @@
-relation_id,activator,receptor,activator_id,receptor_id,fig_id,symbol_Bbox,relation_Bbox,relation_type,fig_id,paper_id,fig_link,fig_name,fig_file,height,width,fig_title,fig_caption,review_status,fig_path,reviewer_name
+relation_id,activator,receptor,activator_id,receptor_id,fig_id,symbol_Bbox,relation_Bbox,relation_type,fig_id.1,paper_id,fig_link,fig_name,fig_file,height,width,fig_title,fig_caption,review_status,fig_path,reviewer_name
 6260,PI3K,AKT,11786,11783,320,,"139,384,246,50",activate_relation,320,,,PMC6681686__medscimonit-25-5572-g005.jpg,,480,640,test,test,1,static/imgs/validation/,Joshua
 5990,mTORC1,IRE1,13423,13426,345,,"277.00000000000006,216,106,163.00000000000003",activate_relation,345,,,PMC3655991__pone.0064344.g007.jpg,,852,674,test,test,1,static/imgs/validation/,Stuart
 6570,CBF1,CBF1,47409,15134,375,,"184,923,345.00000000000006,61.00000000000009",activate_relation,375,,,PMC3365567__nihms378339f1.jpg,,1050,782,test,test,1,static/imgs/validation/,Stuart
@@ -192,6 +192,3 @@ relation_id,activator,receptor,activator_id,receptor_id,fig_id,symbol_Bbox,relat
 6390,IKB,NF-KB,47271,46543,977,,"362,235,78.00000000000003,178.00000000000003",activate_relation,977,,,PMC3946494__nihms540696f6.jpg,,609,714,test,test,1,static/imgs/validation/,Stuart
 6391,NF-KB,NF-KB,46543,46547,977,,"392,399,62.00000000000002,147",activate_relation,977,,,PMC3946494__nihms540696f6.jpg,,609,714,test,test,1,static/imgs/validation/,Stuart
 5909,AKT,MTOR,47132,47133,987,,"272.5244445801,297.1828613281,23.8885192871,53.6316833496",activate_relation,987,,,PMC6451008__41419_2019_1542_Fig1_HTML.jpg,,728,633,test,test,1,static/imgs/validation/,Yijie
-5912,NEMO,NFKB,47140,47138,988,,"587.0362548828,487.8843383789,39.0125732422,100.634765625",activate_relation,988,,,PMC4045494__nihms-476675-f0008.jpg,,811,800,test,test,1,static/imgs/validation/,Ziting
-5913,ATM,NEMO,47139,47140,988,,"376.898651123,613.9931030273,154.9110412598,39.8983154297",activate_relation,988,,,PMC4045494__nihms-476675-f0008.jpg,,811,800,test,test,1,static/imgs/validation/,Ziting
-6448,ROS,ATM,47137,47139,988,,247320120325,activate_relation,988,,,PMC4045494__nihms-476675-f0008.jpg,,811,800,test,test,1,static/imgs/validation/,Ziting

@@ -2,97 +2,91 @@
 
 ### raw_elements plus
 
-TP：277， FN：316-277 = 39 ， FP：432
+TP = 278, FN = 33, FP = 431  
 
-PRECISION = 0.3906
+PRECISION = 0.3921
 
-RECALL = 0.8765
+RECALL = 0.8939
 
 ### raw_relation plus
 
-TP：94， FN：196-94 = 102 ， FP：369-94 = 275
+TP = 95, FN = 98, FP = 274
 
-PRECISION = 0.2547
+PRECISION = 0.2575
 
-RECALL = 0.4795
-
-
+RECALL = 0.4922
 
 ## by_dict
 
-### by_dict element plus
+### by_dict_elements plus
 
-TP：270，FN：316-270 = 46 ， FP：439
+TP = 199, FN = 112, FP = 98  
 
-PRECISION =  0.3808
+PRECISION = 0.6700  
 
-RECALL = 0.8544
+RECALL = 0.6399
+
 
 ### by_dict relation plus
 
-TP：94， FN：196-94 = 102 ， FP：369-94 = 275
+TP = 125, FN = 68, FP = 244
 
-PRECISION = 0.2547
+PRECISION = 0.3388
 
-RECALL = 0.4795
-
-
+RECALL = 0.6477
 
 ## by_article
 
 ### by_article_elements plus
 
-TP：276，FN：316-276 = 40 ， FP：433
+TP = 166, FN = 145, FP = 40  
 
-PRECISION =  0.3893
+PRECISION = 0.8058  
 
-RECALL = 0.8734
+RECALL = 0.5338
+
 
 ### by_artticle_relations plus
 
-TP：92， FN：196-92 = 104 ， FP：369-92 = 277
+TP = 142, FN = 51, FP = 227
 
-PRECISION =  0.2393
+PRECISION = 0.3848
 
-RECALL = 0.4693
-
-
+RECALL = 0.7358
 
 ## by_both
 
 ### by_both_elements plus
 
-TP：278，FN：316-278 = 38 ，FP：431
+TP = 226, FN = 85, FP = 102
 
-PRECISION = 0.3921
+PRECISION = 0.6890
 
-RECALL = 0.8797
+RECALL = 0.7267
 
 ### by_both_relation plus
 
-TP：97，FN：196-97 = 99， FP：369-97 = 272
+TP = 143, FN = 50, FP = 226
 
-PRECISION = 0.2628
+PRECISION = 0.3875
 
-RECALL = 0.4948
-
-
+RECALL = 0.7409
 
 ## validation model outputs
 
 ### validation model outputs elements plus
 
-TP：278，FN：316-278 = 38 ，FP：431
+TP = 278, FN = 33, FP = 431
 
 PRECISION = 0.3921
 
-RECALL = 0.8797
+RECALL = 0.8939
 
 ### validation model outputs relations plus
 
-TP：97，FN：196-97 = 99， FP：369-97 = 272
+TP = 97, FN = 96, FP = 272
 
-PRECISION = 0.2628
+PRECISION = 0.2629
 
-RECALL = 0.4948
+RECALL = 0.5026
 

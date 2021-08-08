@@ -3,6 +3,7 @@ from Matching_elements import matching_name, write_plus
 
 
 def matching(file_truth, file_2, wfile, wlist):
+    TP_num, FP_num = 0, 0
     match_name_s, match_name_r = "", ""
     with open(file_truth, 'r', encoding='UTF-8') as csvfile:
         reader = csv.DictReader(csvfile)
@@ -33,6 +34,7 @@ def matching(file_truth, file_2, wfile, wlist):
             if row2["category_id"] == category_id:
                 flag_c = True
         row2.update({"evaluation": "FP"})
+        FP_num += 1
         if flag_s:
             row2.update({"match_name_startor": match_name_s})
         else:
@@ -43,12 +45,25 @@ def matching(file_truth, file_2, wfile, wlist):
             row2.update({"match_name_receptor": "None"})
         if flag_r and flag_s and flag_c:
             row2.update({"evaluation": "TP"})
+            FP_num -= 1
+            TP_num += 1
     write_plus(outputs, wfile, wlist)
+    return TP_num, FP_num
 
 
 f1 = "csv/finalized_relations.csv"
 f2 = "csv/validation model outputs relation.csv"
-wfile = "plus/validation model outputs relations plus.csv"
+wfile = "plus/validation model outputs relation plus.csv"
 wlist = ["category_id", "bbox", "startor", "receptor", "file_name", "evaluation", "match_name_startor",
          "match_name_receptor"
          ]
+
+tp, fp = matching(f1, f2, wfile, wlist)
+
+fn = 193 - tp
+
+PRECISION = tp / (tp + fp)
+RECALL = tp / (tp + fn)
+print("TP = {}, FN = {}, FP = {}".format(tp, fn, fp))
+print("PRECISION = {0:.4f}".format(PRECISION))
+print("RECALL = {0:.4f}".format(RECALL))
