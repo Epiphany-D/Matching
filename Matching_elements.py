@@ -30,15 +30,14 @@ def matching_name(truth_name, name):
         return False
 
 
-def write_elements(outputs):
-    with open('plus/validation model outputs elements plus.csv', 'w', newline='', encoding="utf-8") as newfile:
-        filewriter = csv.DictWriter(newfile, fieldnames=["", "coordinates", "gene_name", "fige_name", "evaluation",
-                                                         "match_name"])
+def write_plus(outputs, wfile, wlist):
+    with open(wfile, 'w', newline='', encoding="utf-8") as newfile:
+        filewriter = csv.DictWriter(newfile, fieldnames=wlist)
         filewriter.writeheader()  # 写入列名
         filewriter.writerows(outputs)
 
 
-def matching(file_truth, file_validation, fig_name1, fig_name2, gene_name1, gene_name2):
+def matching(file_truth, file_validation, fig_name1, fig_name2, gene_name1, gene_name2, wfile, wlist):
     match_name = ""
     with open(file_truth, 'r', encoding='UTF-8') as csvfile:
         reader = csv.DictReader(csvfile)
@@ -63,33 +62,14 @@ def matching(file_truth, file_validation, fig_name1, fig_name2, gene_name1, gene
             row2.update({"evaluation": "TP", "match_name": match_name})
         else:
             row2.update({"evaluation": "FP", "match_name": "None"})
-    write_elements(outputs)
+    write_plus(outputs, wfile, wlist)
 
 
-def compare():
-    list1 = list()
-    list2 = list()
-    f = open("csv/finalized_genes.csv", 'r', encoding="UTF-8")
-    csvreader = csv.reader(f)
-    final_list = list(csvreader)
-    f = open("plus/validation model outputs elements plus.csv", "r", encoding="UTF-8")
-    csvreader = csv.reader(f)
-    plus_list = list(csvreader)
-    for i in final_list:
-        list1.append(i[5])
-    for i in plus_list:
-        if i[4] == "TP":
-            list2.append(i[5])
-    for i in list1:
-        if i not in list2:
-            print(i)
-
-
-if __name__ == "__main__":
-    f1 = "csv/finalized_genes.csv"
-    f2 = "csv/validation model outputs elements.csv"
-    figname1 = "fig_name"
-    figname2 = "fige_name"
-    genename1 = "annotated_gene_name"
-    genename2 = "gene_name"
-    matching(f1, f2, figname1, figname2, genename1, genename2)
+f1 = "csv/finalized_genes.csv"
+f2 = "csv/raw_elements.csv"
+figname1 = "fig_name"
+figname2 = "fig_name"
+genename1 = "annotated_gene_name"
+genename2 = "gene_name"
+wfile = "plus/raw_elements plus.csv"
+wlist = ["coordinates", "gene_name", "fig_name", "evaluation", "match_name"]
