@@ -38,6 +38,7 @@ def write_plus(outputs, wfile, wlist):
 
 
 def matching(file_truth, file_validation, fig_name1, fig_name2, gene_name1, gene_name2, wfile, wlist):
+    TP_num, FP_num = 0, 0
     match_name = ""
     with open(file_truth, 'r', encoding='UTF-8') as csvfile:
         reader = csv.DictReader(csvfile)
@@ -60,18 +61,30 @@ def matching(file_truth, file_validation, fig_name1, fig_name2, gene_name1, gene
                 break
         if flag == 1:
             row2.update({"evaluation": "TP", "match_name": match_name})
+            TP_num += 1
         else:
             row2.update({"evaluation": "FP", "match_name": "None"})
+            FP_num += 1
     write_plus(outputs, wfile, wlist)
+    return TP_num, FP_num
 
 
-f1 = "csv/finalized_genes.csv"
-f2 = "csv/raw_elements.csv"
-figname1 = "fig_name"
-figname2 = "fig_name"
-genename1 = "annotated_gene_name"
-genename2 = "gene_name"
-wfile = "plus/raw_elements plus.csv"
-wlist = ["coordinates", "gene_name", "fig_name", "evaluation", "match_name"]
+if __name__ == "__main__":
+    f1 = "csv/finalized_genes.csv"
+    f2 = "csv/validation model outputs elements.csv"
+    figname1 = "fig_name"
+    figname2 = "fig_name"
+    genename1 = "annotated_gene_name"
+    genename2 = "gene_name"
+    wfile = "plus/validation model outputs elements plus.csv"
+    wlist = ["coordinates", "gene_name", "fig_name", "evaluation", "match_name"]
 
-matching(f1, f2, figname1, figname2, genename1, genename2, wfile, wlist)
+    tp, fp = matching(f1, f2, figname1, figname2, genename1, genename2, wfile, wlist)
+
+    fn = 311 - tp
+
+    PRECISION = tp / (tp + fp)
+    RECALL = tp / (tp + fn)
+    print("TP = {}, FN = {}, FP = {}".format(tp, fn, fp))
+    print("PRECISION = {0:.4f}".format(PRECISION))
+    print("RECALL = {0:.4f}".format(RECALL))
