@@ -10,13 +10,6 @@
             </Attribute>
           </value>
         </entry>
-        <entry key="\csv\by_article_relation.csv">
-          <value>
-            <Attribute>
-              <option name="separator" value="," />
-            </Attribute>
-          </value>
-        </entry>
         <entry key="\csv\by_both_elements.csv">
           <value>
             <Attribute>
@@ -45,27 +38,6 @@
             </Attribute>
           </value>
         </entry>
-        <entry key="\csv\raw_elements.csv">
-          <value>
-            <Attribute>
-              <option name="separator" value="," />
-            </Attribute>
-          </value>
-        </entry>
-        <entry key="\csv\raw_relation.csv">
-          <value>
-            <Attribute>
-              <option name="separator" value="," />
-            </Attribute>
-          </value>
-        </entry>
-        <entry key="\csv\validation model outputs elements.csv">
-          <value>
-            <Attribute>
-              <option name="separator" value="," />
-            </Attribute>
-          </value>
-        </entry>
         <entry key="\plus\by_article_elements plus.csv">
           <value>
             <Attribute>
@@ -73,21 +45,7 @@
             </Attribute>
           </value>
         </entry>
-        <entry key="\plus\by_article_relation plus.csv">
-          <value>
-            <Attribute>
-              <option name="separator" value="," />
-            </Attribute>
-          </value>
-        </entry>
-        <entry key="\plus\raw_elements plus.csv">
-          <value>
-            <Attribute>
-              <option name="separator" value="," />
-            </Attribute>
-          </value>
-        </entry>
-        <entry key="\plus\validation model outputs elements plus.csv">
+        <entry key="\plus\validation model outputs relations plus.csv">
           <value>
             <Attribute>
               <option name="separator" value="," />
