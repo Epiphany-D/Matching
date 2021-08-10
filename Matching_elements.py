@@ -69,6 +69,15 @@ def matching(file_truth, file_validation, fig_name1, fig_name2, gene_name1, gene
     return TP_num, FP_num
 
 
+def printout(wfile, tp, fn, fp):
+    PRECISION = tp / (tp + fp)
+    RECALL = tp / (tp + fn)
+    print(wfile.replace("plus/", "").replace(".csv", "").title())
+    print("TP = {}, FN = {}, FP = {}".format(tp, fn, fp))
+    print("PRECISION = {0:.4f}".format(PRECISION))
+    print("RECALL = {0:.4f}".format(RECALL))
+
+
 if __name__ == "__main__":
     f1 = "csv/finalized_genes.csv"
     f2 = "csv/validation model outputs elements.csv"
@@ -81,10 +90,5 @@ if __name__ == "__main__":
 
     tp, fp = matching(f1, f2, figname1, figname2, genename1, genename2, wfile, wlist)
 
-    fn = 311 - tp
-
-    PRECISION = tp / (tp + fp)
-    RECALL = tp / (tp + fn)
-    print("TP = {}, FN = {}, FP = {}".format(tp, fn, fp))
-    print("PRECISION = {0:.4f}".format(PRECISION))
-    print("RECALL = {0:.4f}".format(RECALL))
+    fn = 315 - tp  # version1 truth
+    printout(wfile, tp, fn, fp)

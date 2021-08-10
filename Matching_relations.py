@@ -1,5 +1,5 @@
 import csv
-from Matching_elements import matching_name, write_plus
+from Matching_elements import matching_name, write_plus, printout
 
 
 def matching(file_truth, file_2, wfile, wlist):
@@ -60,10 +60,6 @@ wlist = ["category_id", "bbox", "startor", "receptor", "file_name", "evaluation"
 
 tp, fp = matching(f1, f2, wfile, wlist)
 
-fn = 193 - tp
+fn = 196 - tp  # version1 truth
 
-PRECISION = tp / (tp + fp)
-RECALL = tp / (tp + fn)
-print("TP = {}, FN = {}, FP = {}".format(tp, fn, fp))
-print("PRECISION = {0:.4f}".format(PRECISION))
-print("RECALL = {0:.4f}".format(RECALL))
+printout(wfile, tp, fn, fp)
