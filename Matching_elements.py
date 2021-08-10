@@ -1,6 +1,6 @@
 import csv
-import string
 import re
+import string
 
 
 def root1(name):
