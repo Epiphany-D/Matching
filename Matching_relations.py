@@ -1,5 +1,5 @@
 import csv
-from Matching_elements import matching_name, write_plus
+from Matching_elements import matching_name, write_plus, printout
 
 
 def matching(file_truth, file_2, wfile, wlist):
@@ -51,19 +51,16 @@ def matching(file_truth, file_2, wfile, wlist):
     return TP_num, FP_num
 
 
-f1 = "csv/finalized_relations.csv"
-f2 = "csv/validation model outputs relation.csv"
-wfile = "plus/validation model outputs relation plus.csv"
-wlist = ["category_id", "bbox", "startor", "receptor", "file_name", "evaluation", "match_name_startor",
-         "match_name_receptor"
-         ]
-
-tp, fp = matching(f1, f2, wfile, wlist)
-
-fn = 193 - tp
-
-PRECISION = tp / (tp + fp)
-RECALL = tp / (tp + fn)
-print("TP = {}, FN = {}, FP = {}".format(tp, fn, fp))
-print("PRECISION = {0:.4f}".format(PRECISION))
-print("RECALL = {0:.4f}".format(RECALL))
+if __name__ == "__main__":
+    f1 = "csv/finalized_relations.csv"
+    f2_list = ["csv/by_article_relation.csv", "csv/by_both_relation.csv", "csv/by_dict_relation.csv",
+               "csv/raw_relation.csv", "csv/validation model outputs relation.csv"]
+    wlist = ["category_id", "bbox", "startor", "receptor", "file_name", "evaluation", "match_name_startor",
+             "match_name_receptor"
+             ]
+    for f2 in f2_list:
+        wfile = f2.replace("csv", "plus").replace(".plus", " plus.csv")
+        tp, fp = matching(f1, f2, wfile, wlist)
+        fn = 196 - tp  # version1 truth
+        printout(wfile, tp, fn, fp)
+        print("----------")

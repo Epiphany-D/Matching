@@ -66,6 +66,13 @@
             </Attribute>
           </value>
         </entry>
+        <entry key="\csv\validation model outputs relation.csv">
+          <value>
+            <Attribute>
+              <option name="separator" value="," />
+            </Attribute>
+          </value>
+        </entry>
         <entry key="\plus\by_article_elements plus.csv">
           <value>
             <Attribute>
