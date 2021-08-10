@@ -69,26 +69,27 @@ def matching(file_truth, file_validation, fig_name1, fig_name2, gene_name1, gene
     return TP_num, FP_num
 
 
-def printout(wfile, tp, fn, fp):
-    PRECISION = tp / (tp + fp)
-    RECALL = tp / (tp + fn)
-    print(wfile.replace("plus/", "").replace(".csv", "").title())
-    print("TP = {}, FN = {}, FP = {}".format(tp, fn, fp))
+def printout(output_file, TP, FN, FP):
+    PRECISION = TP / (TP + FP)
+    RECALL = TP / (TP + FN)
+    print(output_file.replace("plus/", "").replace(".csv", "").title())
+    print("TP = {}, FN = {}, FP = {}".format(TP, FN, FP))
     print("PRECISION = {0:.4f}".format(PRECISION))
     print("RECALL = {0:.4f}".format(RECALL))
 
 
+f2_list = ["csv/by_article_elements.csv", "csv/by_both_elements.csv", "csv/by_dict_elements.csv",
+           "csv/raw_elements.csv", "csv/validation model outputs elements.csv"]
 if __name__ == "__main__":
     f1 = "csv/finalized_genes.csv"
-    f2 = "csv/validation model outputs elements.csv"
     figname1 = "fig_name"
     figname2 = "fig_name"
     genename1 = "annotated_gene_name"
     genename2 = "gene_name"
-    wfile = "plus/validation model outputs elements plus.csv"
     wlist = ["coordinates", "gene_name", "fig_name", "evaluation", "match_name"]
-
-    tp, fp = matching(f1, f2, figname1, figname2, genename1, genename2, wfile, wlist)
-
-    fn = 315 - tp  # version1 truth
-    printout(wfile, tp, fn, fp)
+    for f2 in f2_list:
+        wfile = f2.replace("csv", "plus").replace(".plus", " plus.csv")
+        tp, fp = matching(f1, f2, figname1, figname2, genename1, genename2, wfile, wlist)
+        fn = 315 - tp  # version1 truth
+        printout(wfile, tp, fn, fp)
+        print("----------")
