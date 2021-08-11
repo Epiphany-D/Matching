@@ -4,7 +4,6 @@ from Matching_elements import matching_name, write_plus, printout, check_flag
 
 def matching(file_truth, file_2, wfile, wlist):
     TP_num, FP_num = 0, 0
-    match_name_s, match_name_r = "", ""
     with open(file_truth, 'r', encoding='UTF-8') as csvfile:
         reader = csv.DictReader(csvfile)
         truth = [row for row in reader]
@@ -20,14 +19,16 @@ def matching(file_truth, file_2, wfile, wlist):
                 startor_list.append(row1["activator"])  # in same fig
                 receptor_list.append(row1["receptor"])
                 category_id_list.append(row1["relation_type"])
-        flag_s = check_flag(row2["startor"], startor_list)
-        flag_r = check_flag(row2["receptor"], receptor_list)
+        flag_s, match_name_s = check_flag(row2["startor"], startor_list)
+        flag_r, match_name_r = check_flag(row2["receptor"], receptor_list)
         for category_id in category_id_list:
             if row2["category_id"] == category_id:
                 flag_c = True
-        row2.update({"evaluation": "FP"})
         if flag_s == 2 or flag_r == 2:
+            row2.update({"evaluation": "DELETE", "match_name_startor": "DELETE",
+                         "match_name_receptor": "DELETE"})
             continue
+        row2.update({"evaluation": "FP"})
         FP_num += 1
         if flag_s:
             row2.update({"match_name_startor": match_name_s})
