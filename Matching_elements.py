@@ -80,14 +80,19 @@ def check_flag(e_name, temp_list):
     return flag, match_name
 
 
-def matching(file_truth, file_validation, fig_name1, fig_name2, gene_name1, gene_name2, wfile, wlist):
-    TP_num, FP_num = 0, 0
+def read_file(file_truth, file_validation):
     with open(file_truth, 'r', encoding='UTF-8') as csvfile:
         reader = csv.DictReader(csvfile)
         truth = [row for row in reader]
     with open(file_validation, 'r', encoding='UTF-8') as csvfile:
         reader = csv.DictReader(csvfile)
         outputs = [row for row in reader]
+    return outputs, truth
+
+
+def matching(file_truth, file_validation, fig_name1, fig_name2, gene_name1, gene_name2, wfile, wlist):
+    TP_num, FP_num = 0, 0
+    outputs, truth = read_file(file_truth, file_validation)
     for row2 in outputs:
         temp_list = list()
         fig = row2[fig_name2]
@@ -117,10 +122,10 @@ def printout(output_file, TP, FN, FP):
     print("RECALL = {0:.4f}".format(RECALL))
 
 
-f2_list = ["csv/by_article_elements.csv", "csv/by_both_elements.csv", "csv/by_dict_elements.csv",
-           "csv/raw_elements.csv", "csv/validation model outputs elements.csv"]
 if __name__ == "__main__":
     f1 = "csv/finalized_genes.csv"
+    f2_list = ["csv/by_article_elements.csv", "csv/by_both_elements.csv", "csv/by_dict_elements.csv",
+               "csv/raw_elements.csv", "csv/validation model outputs elements.csv"]
     figname1 = "fig_name"
     figname2 = "fig_name"
     genename1 = "annotated_gene_name"

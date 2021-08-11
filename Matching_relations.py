@@ -1,26 +1,20 @@
-import csv
-from Matching_elements import matching_name, write_plus, printout, check_flag
+import Matching_elements as mc
 
 
 def matching(file_truth, file_2, wfile, wlist):
     TP_num, FP_num = 0, 0
-    with open(file_truth, 'r', encoding='UTF-8') as csvfile:
-        reader = csv.DictReader(csvfile)
-        truth = [row for row in reader]
-    with open(file_2, 'r', encoding='UTF-8') as csvfile:
-        reader = csv.DictReader(csvfile)
-        outputs = [row for row in reader]
+    truth, outputs = mc.read_file(file_truth, file_validation=file_2)
     for row2 in outputs:
         startor_list, receptor_list, category_id_list = list(), list(), list()
         flag_c = False
         fig = row2["file_name"]
         for row1 in truth:
             if row1["fig_name"] == fig:
-                startor_list.append(row1["activator"])  # in same fig
+                startor_list.append(row1["activator"])
                 receptor_list.append(row1["receptor"])
-                category_id_list.append(row1["relation_type"])
-        flag_s, match_name_s = check_flag(row2["startor"], startor_list)
-        flag_r, match_name_r = check_flag(row2["receptor"], receptor_list)
+                category_id_list.append(row1["relation_type"])  # in same fig
+        flag_s, match_name_s = mc.check_flag(row2["startor"], startor_list)
+        flag_r, match_name_r = mc.check_flag(row2["receptor"], receptor_list)
         for category_id in category_id_list:
             if row2["category_id"] == category_id:
                 flag_c = True
@@ -42,7 +36,7 @@ def matching(file_truth, file_2, wfile, wlist):
             row2.update({"evaluation": "TP"})
             FP_num -= 1
             TP_num += 1
-    write_plus(outputs, wfile, wlist)
+    mc.write_plus(outputs, wfile, wlist)
     return TP_num, FP_num
 
 
@@ -57,5 +51,5 @@ if __name__ == "__main__":
         wfile = f2.replace("csv", "plus").replace(".plus", " plus.csv")
         tp, fp = matching(f1, f2, wfile, wlist)
         fn = 196 - tp  # version1 truth
-        printout(wfile, tp, fn, fp)
+        mc.printout(wfile, tp, fn, fp)
         print("----------")
