@@ -27,12 +27,12 @@ def root2(name):
 def matching_name(truth_name, name):
     rt_truth_name = root1(truth_name)
     rt_match_name = root1(name)
-    if len(rt_match_name) == 1 or len(name) >= 7:
-        return False
+    if len(rt_match_name) <= 1 or len(name) >= 7:
+        return "None"
     if rt_match_name == rt_truth_name or root2(rt_match_name) == root2(rt_truth_name):
-        return True
+        return "OK"
     else:
-        return False
+        return "WRONG"
 
 
 def write_plus(outputs, wfile, wlist):
@@ -40,6 +40,24 @@ def write_plus(outputs, wfile, wlist):
         filewriter = csv.DictWriter(newfile, fieldnames=wlist)
         filewriter.writeheader()  # 写入列名
         filewriter.writerows(outputs)
+
+
+def check_flag(e_name, temp_list):
+    flag = 0
+    for name in temp_list:
+        # add IOU in here
+        tmp = matching_name(name, e_name)
+        if tmp == "OK":
+            match_name = name
+            flag = 1  # Successful match
+            break
+        elif tmp == "None":
+            flag = 2
+            continue
+        elif tmp == "WRONG":
+            flag = 0
+            continue
+    return flag
 
 
 def matching(file_truth, file_validation, fig_name1, fig_name2, gene_name1, gene_name2, wfile, wlist):
@@ -53,18 +71,14 @@ def matching(file_truth, file_validation, fig_name1, fig_name2, gene_name1, gene
         outputs = [row for row in reader]
     for row2 in outputs:
         temp_list = list()
-        flag = 0
         fig = row2[fig_name2]
         for row1 in truth:
             if row1[fig_name1] == fig:
                 temp_list.append(row1[gene_name1])  # in same fig
-        for name in temp_list:
-            # add IOU in here
-            if matching_name(name, row2[gene_name2]):
-                match_name = name
-                flag = 1  # Successful match
-                break
-        if flag == 1:
+        flag = check_flag(row2[gene_name2], temp_list)
+        if flag == 2:
+            continue
+        elif flag == 1:
             row2.update({"evaluation": "TP", "match_name": match_name})
             TP_num += 1
         else:
