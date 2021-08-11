@@ -1,0 +1,53 @@
+By_Article_Elements Plus
+TP = 165, FN = 150, FP = 32
+PRECISION = 0.8376
+RECALL = 0.5238
+----------
+By_Both_Elements Plus
+TP = 225, FN = 90, FP = 72
+PRECISION = 0.7576
+RECALL = 0.7143
+----------
+By_Dict_Elements Plus
+TP = 199, FN = 116, FP = 73
+PRECISION = 0.7316
+RECALL = 0.6317
+----------
+Raw_Elements Plus
+TP = 273, FN = 42, FP = 241
+PRECISION = 0.5311
+RECALL = 0.8667
+----------
+Validation Model Outputs Elements Plus
+TP = 272, FN = 43, FP = 233
+PRECISION = 0.5386
+RECALL = 0.8635
+----------
+
+
+
+By_Article_Relation Plus
+TP = 141, FN = 55, FP = 176
+PRECISION = 0.4448
+RECALL = 0.7194
+----------
+By_Both_Relation Plus
+TP = 142, FN = 54, FP = 183
+PRECISION = 0.4369
+RECALL = 0.7245
+----------
+By_Dict_Relation Plus
+TP = 125, FN = 71, FP = 199
+PRECISION = 0.3858
+RECALL = 0.6378
+----------
+Raw_Relation Plus
+TP = 89, FN = 107, FP = 131
+PRECISION = 0.4045
+RECALL = 0.4541
+----------
+Validation Model Outputs Relation Plus
+TP = 90, FN = 106, FP = 126
+PRECISION = 0.4167
+RECALL = 0.4592
+----------

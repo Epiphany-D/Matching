@@ -1,6 +1,23 @@
 import csv
-import string
 import re
+import string
+
+
+def is_number(s):
+    try:
+        float(s)
+        return True
+    except ValueError:
+        pass
+
+    try:
+        import unicodedata
+        unicodedata.numeric(s)
+        return True
+    except (TypeError, ValueError):
+        pass
+
+    return False
 
 
 def root1(name):
@@ -8,6 +25,7 @@ def root1(name):
     name = name.replace(' ', '')  # remove space
     name = name.replace('.', '')  # remove dot *
     name = re.sub(u"\\(.*?\\)", "", name)  # remove brackets and its content
+    name = name.replace('(', "").replace(')', "")
     name = name.rstrip(string.digits)  # *
 
     if name.find("-") >= 0:
@@ -24,10 +42,16 @@ def root2(name):
 
 
 def matching_name(truth_name, name):
-    if root1(truth_name) == root1(name) or root2(root1(truth_name)) == root2(root1(name)):
-        return True
+    rt_truth_name = root1(truth_name)
+    rt_match_name = root1(name)
+    if len(name.strip()) <= 1 or len(name.strip()) > 7:  # delete single letter and too long name
+        return "None"
+    if is_number(root2(name)):  # delete name only has numbers
+        return "None"
+    if rt_match_name == rt_truth_name or root2(rt_match_name) == root2(rt_truth_name):
+        return "OK"
     else:
-        return False
+        return "WRONG"
 
 
 def write_plus(outputs, wfile, wlist):
@@ -37,9 +61,27 @@ def write_plus(outputs, wfile, wlist):
         filewriter.writerows(outputs)
 
 
+def check_flag(e_name, temp_list):
+    flag = 0
+    match_name = ""
+    for name in temp_list:
+        # add IOU in here
+        tmp = matching_name(name, e_name)
+        if tmp == "OK":
+            match_name = name
+            flag = 1  # Successful match
+            break
+        elif tmp == "None":
+            flag = 2
+            continue
+        elif tmp == "WRONG":
+            flag = 0
+            continue
+    return flag, match_name
+
+
 def matching(file_truth, file_validation, fig_name1, fig_name2, gene_name1, gene_name2, wfile, wlist):
     TP_num, FP_num = 0, 0
-    match_name = ""
     with open(file_truth, 'r', encoding='UTF-8') as csvfile:
         reader = csv.DictReader(csvfile)
         truth = [row for row in reader]
@@ -48,18 +90,15 @@ def matching(file_truth, file_validation, fig_name1, fig_name2, gene_name1, gene
         outputs = [row for row in reader]
     for row2 in outputs:
         temp_list = list()
-        flag = 0
         fig = row2[fig_name2]
         for row1 in truth:
             if row1[fig_name1] == fig:
                 temp_list.append(row1[gene_name1])  # in same fig
-        for name in temp_list:
-            # add IOU in here
-            if matching_name(name, row2[gene_name2]):
-                match_name = name
-                flag = 1  # Successful match
-                break
-        if flag == 1:
+        flag, match_name = check_flag(row2[gene_name2], temp_list)
+        if flag == 2:
+            row2.update({"evaluation": "DELETE", "match_name": "DELETE"})
+            continue
+        elif flag == 1:
             row2.update({"evaluation": "TP", "match_name": match_name})
             TP_num += 1
         else:

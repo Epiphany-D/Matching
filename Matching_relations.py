@@ -1,10 +1,9 @@
 import csv
-from Matching_elements import matching_name, write_plus, printout
+from Matching_elements import matching_name, write_plus, printout, check_flag
 
 
 def matching(file_truth, file_2, wfile, wlist):
     TP_num, FP_num = 0, 0
-    match_name_s, match_name_r = "", ""
     with open(file_truth, 'r', encoding='UTF-8') as csvfile:
         reader = csv.DictReader(csvfile)
         truth = [row for row in reader]
@@ -13,26 +12,22 @@ def matching(file_truth, file_2, wfile, wlist):
         outputs = [row for row in reader]
     for row2 in outputs:
         startor_list, receptor_list, category_id_list = list(), list(), list()
-        flag_s, flag_r, flag_c = False, False, False
+        flag_c = False
         fig = row2["file_name"]
         for row1 in truth:
             if row1["fig_name"] == fig:
                 startor_list.append(row1["activator"])  # in same fig
                 receptor_list.append(row1["receptor"])
                 category_id_list.append(row1["relation_type"])
-        for name in startor_list:
-            if matching_name(name, row2["startor"]):
-                match_name_s = name
-                flag_s = True  # Successful match s
-                break
-        for name in receptor_list:
-            if matching_name(name, row2["receptor"]):
-                match_name_r = name
-                flag_r = True
-                break
+        flag_s, match_name_s = check_flag(row2["startor"], startor_list)
+        flag_r, match_name_r = check_flag(row2["receptor"], receptor_list)
         for category_id in category_id_list:
             if row2["category_id"] == category_id:
                 flag_c = True
+        if flag_s == 2 or flag_r == 2:
+            row2.update({"evaluation": "DELETE", "match_name_startor": "DELETE",
+                         "match_name_receptor": "DELETE"})
+            continue
         row2.update({"evaluation": "FP"})
         FP_num += 1
         if flag_s:
