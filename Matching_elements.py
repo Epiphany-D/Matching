@@ -8,6 +8,7 @@ def root1(name):
     name = name.replace(' ', '')  # remove space
     name = name.replace('.', '')  # remove dot *
     name = re.sub(u"\\(.*?\\)", "", name)  # remove brackets and its content
+    name = name.replace('(', "").replace(')', "")
     name = name.rstrip(string.digits)  # *
 
     if name.find("-") >= 0:
@@ -24,7 +25,11 @@ def root2(name):
 
 
 def matching_name(truth_name, name):
-    if root1(truth_name) == root1(name) or root2(root1(truth_name)) == root2(root1(name)):
+    rt_truth_name = root1(truth_name)
+    rt_match_name = root1(name)
+    if len(rt_match_name) == 1 or len(name) >= 7:
+        return False
+    if rt_match_name == rt_truth_name or root2(rt_match_name) == root2(rt_truth_name):
         return True
     else:
         return False
