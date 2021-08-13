@@ -13,6 +13,7 @@ def matching(file_truth, file_2, wfile, wlist):
                 startor_list.append(row1["activator"])
                 receptor_list.append(row1["receptor"])
                 category_id_list.append(row1["relation_type"])  # in same fig
+        # TODO:: Add IOU here
         flag_s, match_name_s = mc.check_flag(row2["startor"], startor_list)
         flag_r, match_name_r = mc.check_flag(row2["receptor"], receptor_list)
         for category_id in category_id_list:

@@ -99,6 +99,7 @@ def matching(file_truth, file_validation, fig_name1, fig_name2, gene_name1, gene
         for row1 in truth:
             if row1[fig_name1] == fig:
                 temp_list.append(row1[gene_name1])  # in same fig
+        # TODO:: add IOU here
         flag, match_name = check_flag(row2[gene_name2], temp_list)
         if flag == 2:
             row2.update({"evaluation": "DELETE", "match_name": "DELETE"})
