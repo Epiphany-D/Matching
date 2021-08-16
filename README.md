@@ -28,4 +28,4 @@
 	- *Match once, if the match fails, remove the dash and make another match.
 7. Make length of the name < 7
 8. Remove names with numbers only
-9. Remove names that have only one letter after root
+9. Remove names that have only one letter
