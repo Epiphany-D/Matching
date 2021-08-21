@@ -57,7 +57,7 @@ def matching_name(truth_name, name):
     rt_truth_name = root1(truth_name)
     rt_match_name = root1(name)
     if len(name.strip().replace('.', '')) <= 1 or len(
-            name.strip().replace('(', '').replace(')', '')) > 7:
+            name.strip().replace('(', '').replace(')', '').replace('-', '')) > 7:
         # delete single letter and too long name
         return "DEL"
     # if is_contain_chinese(name):  # delete name has chinese
