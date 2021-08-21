@@ -20,12 +20,24 @@ def is_number(s):
     return False
 
 
+def is_contain_chinese(check_str):
+    """
+    判断字符串中是否包含中文
+    :param check_str: {str} 需要检测的字符串
+    :return: {bool} 包含返回True， 不包含返回False
+    """
+    for ch in check_str:
+        if u'\u4e00' <= ch <= u'\u9fff':
+            return True
+    return False
+
+
 def root1(name):
     name = name.upper()
     name = name.replace(' ', '')  # remove space
     name = name.replace('.', '')  # remove dot *
     name = re.sub(u"\\(.*?\\)", "", name)  # remove brackets and its content
-    name = name.replace('(', "").replace(')', "")
+    name = name.replace('(', "").replace(')', "")  # remove single brackets
     name = name.rstrip(string.digits)  # *
 
     if name.find("-") >= 0:
@@ -44,10 +56,18 @@ def root2(name):
 def matching_name(truth_name, name):
     rt_truth_name = root1(truth_name)
     rt_match_name = root1(name)
-    if len(name.strip()) <= 1 or len(name.strip()) > 7:  # delete single letter and too long name
-        return "None"
-    if is_number(root2(name)):  # delete name only has numbers
-        return "None"
+    if len(name.strip().replace('.', '')) <= 1 or len(
+            name.strip().replace('(', '').replace(')', '')) > 7:
+        # delete single letter and too long name
+        return "DEL"
+    # if is_contain_chinese(name):  # delete name has chinese
+    #     return "DEL"
+    # if is_number(root2(name)):  # delete name only has numbers
+    #     return "DEL"
+    my_re = re.compile(r'[A-Za-z]', re.S)
+    res = re.findall(my_re, name)
+    if not len(res):  # delete name not has letter
+        return "DEL"
     if rt_match_name == rt_truth_name or root2(rt_match_name) == root2(rt_truth_name):
         return "OK"
     else:
@@ -71,9 +91,9 @@ def check_flag(e_name, temp_list):
             match_name = name
             flag = 1  # Successful match
             break
-        elif tmp == "None":
+        elif tmp == "DEL":
             flag = 2
-            continue
+            break
         elif tmp == "WRONG":
             flag = 0
             continue

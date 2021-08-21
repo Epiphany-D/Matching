@@ -45,23 +45,21 @@ def matching(file_truth, file_predict, wfile, wlist, relation):
 
 if __name__ == "__main__":
     f1 = "csv/finalized_relations.csv"
-    f2_list = ["csv/by_article_relation.csv", "csv/by_both_relation.csv", "csv/by_dict_relation.csv",
-               "csv/raw_relation.csv", "csv/validation model outputs relation.csv"]
+    f2 = "csv/test.csv"
     wlist = ["category_id", "bbox", "startor", "receptor", "file_name", "evaluation", "match_name_startor",
              "match_name_receptor"
              ]
-    for f2 in f2_list:
-        wfile = f2.replace("csv", "plus").replace(".plus", " plus.csv")
-        try:
-            os.remove(wfile)
-        except:
-            pass
-        for relation in ["activate_relation", "inhibit_relation"]:
-            tp, fp = matching(f1, f2, wfile, wlist, relation)
-            if relation == "activate_relation":
-                tmp = 158
-            else:
-                tmp = 38
-            fn = tmp - tp  # version1 truth
-            mc.printout(wfile, tp, fn, fp, relation)
-            print("----------")
+    wfile = f2.replace("csv", "plus").replace(".plus", " plus.csv")
+    try:
+        os.remove(wfile)
+    except:
+        pass
+    for relation in ["activate_relation", "inhibit_relation"]:
+        tp, fp = matching(f1, f2, wfile, wlist, relation)
+        if relation == "activate_relation":
+            tmp = 158
+        else:
+            tmp = 38
+        fn = tmp - tp  # version1 truth
+        mc.printout(wfile, tp, fn, fp, relation)
+        print("----------")
