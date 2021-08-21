@@ -20,12 +20,24 @@ def is_number(s):
     return False
 
 
+def is_contain_chinese(check_str):
+    """
+    判断字符串中是否包含中文
+    :param check_str: {str} 需要检测的字符串
+    :return: {bool} 包含返回True， 不包含返回False
+    """
+    for ch in check_str:
+        if u'\u4e00' <= ch <= u'\u9fff':
+            return True
+    return False
+
+
 def root1(name):
     name = name.upper()
     name = name.replace(' ', '')  # remove space
     name = name.replace('.', '')  # remove dot *
     name = re.sub(u"\\(.*?\\)", "", name)  # remove brackets and its content
-    name = name.replace('(', "").replace(')', "")
+    name = name.replace('(', "").replace(')', "")  # remove single brackets
     name = name.rstrip(string.digits)  # *
 
     if name.find("-") >= 0:
@@ -44,10 +56,18 @@ def root2(name):
 def matching_name(truth_name, name):
     rt_truth_name = root1(truth_name)
     rt_match_name = root1(name)
-    if len(name.strip()) <= 1 or len(name.strip()) > 7:  # delete single letter and too long name
-        return "None"
-    if is_number(root2(name)):  # delete name only has numbers
-        return "None"
+    if len(name.strip().replace('.', '')) <= 1 or len(
+            name.strip().replace('(', '').replace(')', '').replace('-', '')) > 7:
+        # delete single letter and too long name
+        return "DEL"
+    # if is_contain_chinese(name):  # delete name has chinese
+    #     return "DEL"
+    # if is_number(root2(name)):  # delete name only has numbers
+    #     return "DEL"
+    my_re = re.compile(r'[A-Za-z]', re.S)
+    res = re.findall(my_re, name)
+    if not len(res):  # delete name not has letter
+        return "DEL"
     if rt_match_name == rt_truth_name or root2(rt_match_name) == root2(rt_truth_name):
         return "OK"
     else:
@@ -55,7 +75,7 @@ def matching_name(truth_name, name):
 
 
 def write_plus(outputs, wfile, wlist):
-    with open(wfile, 'w', newline='', encoding="utf-8") as newfile:
+    with open(wfile, 'a', newline='', encoding="utf-8") as newfile:
         filewriter = csv.DictWriter(newfile, fieldnames=wlist)
         filewriter.writeheader()  # 写入列名
         filewriter.writerows(outputs)
@@ -71,52 +91,55 @@ def check_flag(e_name, temp_list):
             match_name = name
             flag = 1  # Successful match
             break
-        elif tmp == "None":
+        elif tmp == "DEL":
             flag = 2
-            continue
+            break
         elif tmp == "WRONG":
             flag = 0
             continue
     return flag, match_name
 
 
-def read_file(file_truth, file_validation):
+def read_file(file_truth, file_predict):
     with open(file_truth, 'r', encoding='UTF-8') as csvfile:
         reader = csv.DictReader(csvfile)
         truth = [row for row in reader]
-    with open(file_validation, 'r', encoding='UTF-8') as csvfile:
+    with open(file_predict, 'r', encoding='UTF-8') as csvfile:
         reader = csv.DictReader(csvfile)
         outputs = [row for row in reader]
-    return outputs, truth
+    return truth, outputs
 
 
-def matching(file_truth, file_validation, fig_name1, fig_name2, gene_name1, gene_name2, wfile, wlist):
+def matching(file_truth, file_predict, fig_name1, fig_name2, gene_name1, gene_name2, wfile, wlist):
     TP_num, FP_num = 0, 0
-    outputs, truth = read_file(file_truth, file_validation)
-    for row2 in outputs:
+    truth, predict = read_file(file_truth, file_predict)
+    for pt in predict:
         temp_list = list()
-        fig = row2[fig_name2]
-        for row1 in truth:
-            if row1[fig_name1] == fig:
-                temp_list.append(row1[gene_name1])  # in same fig
-        flag, match_name = check_flag(row2[gene_name2], temp_list)
+        fig = pt[fig_name2]
+        for th in truth:
+            if th[fig_name1] == fig:
+                temp_list.append(th[gene_name1])  # in same fig
+        # TODO:: add IOU here
+        flag, match_name = check_flag(pt[gene_name2], temp_list)
         if flag == 2:
-            row2.update({"evaluation": "DELETE", "match_name": "DELETE"})
+            pt.update({"evaluation": "DELETE", "match_name": "DELETE"})
             continue
         elif flag == 1:
-            row2.update({"evaluation": "TP", "match_name": match_name})
+            pt.update({"evaluation": "TP", "match_name": match_name})
             TP_num += 1
         else:
-            row2.update({"evaluation": "FP", "match_name": "None"})
+            pt.update({"evaluation": "FP", "match_name": "None"})
             FP_num += 1
-    write_plus(outputs, wfile, wlist)
+    write_plus(predict, wfile, wlist)
     return TP_num, FP_num
 
 
-def printout(output_file, TP, FN, FP):
+def printout(output_file, TP, FN, FP, relation=""):
     PRECISION = TP / (TP + FP)
     RECALL = TP / (TP + FN)
-    print(output_file.replace("plus/", "").replace(".csv", "").title())
+    if relation != "":
+        relation = ' : ' + relation
+    print(output_file.replace("plus/", "").replace(".csv", "").title() + relation)
     print("TP = {}, FN = {}, FP = {}".format(TP, FN, FP))
     print("PRECISION = {0:.4f}".format(PRECISION))
     print("RECALL = {0:.4f}".format(RECALL))

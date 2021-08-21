@@ -31,6 +31,13 @@
             </Attribute>
           </value>
         </entry>
+        <entry key="\csv\by_dict_relation.csv">
+          <value>
+            <Attribute>
+              <option name="separator" value="," />
+            </Attribute>
+          </value>
+        </entry>
         <entry key="\csv\finalized_genes.csv">
           <value>
             <Attribute>
@@ -53,6 +60,13 @@
           </value>
         </entry>
         <entry key="\csv\raw_relation.csv">
+          <value>
+            <Attribute>
+              <option name="separator" value="," />
+            </Attribute>
+          </value>
+        </entry>
+        <entry key="\csv\test.csv">
           <value>
             <Attribute>
               <option name="separator" value="," />
@@ -87,6 +101,20 @@
             </Attribute>
           </value>
         </entry>
+        <entry key="\plus\by_dict_elements plus.csv">
+          <value>
+            <Attribute>
+              <option name="separator" value="," />
+            </Attribute>
+          </value>
+        </entry>
+        <entry key="\plus\by_dict_relation plus.csv">
+          <value>
+            <Attribute>
+              <option name="separator" value="," />
+            </Attribute>
+          </value>
+        </entry>
         <entry key="\plus\raw_elements plus.csv">
           <value>
             <Attribute>
@@ -95,6 +123,13 @@
           </value>
         </entry>
         <entry key="\plus\validation model outputs elements plus.csv">
+          <value>
+            <Attribute>
+              <option name="separator" value="," />
+            </Attribute>
+          </value>
+        </entry>
+        <entry key="\plus\validation model outputs relation plus.csv">
           <value>
             <Attribute>
               <option name="separator" value="," />
