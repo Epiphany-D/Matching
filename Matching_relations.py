@@ -1,43 +1,44 @@
 import Matching_elements as mc
 
 
-def matching(file_truth, file_2, wfile, wlist):
+def matching(file_truth, file_predict, wfile, wlist, relation):
     TP_num, FP_num = 0, 0
-    truth, outputs = mc.read_file(file_truth, file_validation=file_2)
-    for row2 in outputs:
-        startor_list, receptor_list, category_id_list = list(), list(), list()
-        flag_c = False
-        fig = row2["file_name"]
-        for row1 in truth:
-            if row1["fig_name"] == fig:
-                startor_list.append(row1["activator"])
-                receptor_list.append(row1["receptor"])
-                category_id_list.append(row1["relation_type"])  # in same fig
-        # TODO:: Add IOU here
-        flag_s, match_name_s = mc.check_flag(row2["startor"], startor_list)
-        flag_r, match_name_r = mc.check_flag(row2["receptor"], receptor_list)
-        for category_id in category_id_list:
-            if row2["category_id"] == category_id:
-                flag_c = True
-        if flag_s == 2 or flag_r == 2:
-            row2.update({"evaluation": "DELETE", "match_name_startor": "DELETE",
-                         "match_name_receptor": "DELETE"})
-            continue
-        row2.update({"evaluation": "FP"})
-        FP_num += 1
-        if flag_s:
-            row2.update({"match_name_startor": match_name_s})
-        else:
-            row2.update({"match_name_startor": "None"})
-        if flag_r:
-            row2.update({"match_name_receptor": match_name_r})
-        else:
-            row2.update({"match_name_receptor": "None"})
-        if flag_r and flag_s and flag_c:
-            row2.update({"evaluation": "TP"})
-            FP_num -= 1
-            TP_num += 1
-    mc.write_plus(outputs, wfile, wlist)
+    writelist = list()
+    truth, predict = mc.read_file(file_truth, file_predict=file_predict)
+    for pt in predict:
+        if pt["category_id"] == relation:
+            del_flag = False
+            startor_list, receptor_list = list(), list()
+            fig = pt["file_name"]
+            for th in truth:
+                if th["relation_type"] == relation and th["fig_name"] == fig:
+                    startor_list.append(th["activator"])
+                    receptor_list.append(th["receptor"])  # in same fig
+            # TODO:: Add IOU here
+            flag_s, match_name_s = mc.check_flag(pt["startor"], startor_list)
+            flag_r, match_name_r = mc.check_flag(pt["receptor"], receptor_list)
+            if flag_s == 2 or flag_r == 2:
+                del_flag = True
+            if del_flag:
+                pt.update({"evaluation": "DELETE", "match_name_startor": "DELETE",
+                           "match_name_receptor": "DELETE"})
+            else:
+                pt.update({"evaluation": "FP"})
+                FP_num += 1
+                if flag_s:
+                    pt.update({"match_name_startor": match_name_s})
+                else:
+                    pt.update({"match_name_startor": "None"})
+                if flag_r:
+                    pt.update({"match_name_receptor": match_name_r})
+                else:
+                    pt.update({"match_name_receptor": "None"})
+                if flag_r and flag_s:
+                    pt.update({"evaluation": "TP"})
+                    FP_num -= 1
+                    TP_num += 1
+            writelist.append(pt)
+    mc.write_plus(writelist, wfile, wlist)
     return TP_num, FP_num
 
 
@@ -49,8 +50,13 @@ if __name__ == "__main__":
              "match_name_receptor"
              ]
     for f2 in f2_list:
-        wfile = f2.replace("csv", "plus").replace(".plus", " plus.csv")
-        tp, fp = matching(f1, f2, wfile, wlist)
-        fn = 196 - tp  # version1 truth
-        mc.printout(wfile, tp, fn, fp)
-        print("----------")
+        for relation in ["activate_relation", "inhibit_relation"]:
+            wfile = f2.replace("csv", "plus").replace(".plus", " plus.csv")
+            tp, fp = matching(f1, f2, wfile, wlist, relation)
+            if relation == "activate_relation":
+                tmp = 158
+            else:
+                tmp = 38
+            fn = tmp - tp  # version1 truth
+            mc.printout(wfile, tp, fn, fp, relation)
+            print("----------")
